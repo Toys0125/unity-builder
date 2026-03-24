@@ -1224,7 +1224,7 @@ class ImageTag {
         this.targetPlatform = targetPlatform;
         this.builderPlatform = ImageTag.getTargetPlatformToTargetPlatformSuffixMap(targetPlatform, editorVersion, providerStrategy);
         this.imagePlatformPrefix = ImageTag.getImagePlatformPrefixes(buildPlatform);
-        this.imageRollingVersion = Number(containerRegistryImageVersion); // Will automatically roll to the latest non-breaking version.
+        this.imageRollingVersion = containerRegistryImageVersion;
     }
     static get versionPattern() {
         return /^\d+\.\d+\.\d+[a-z]\d+$/;
@@ -1829,7 +1829,7 @@ class Input {
         return Input.getInput('containerRegistryRepository') ?? 'unityci/editor';
     }
     static get containerRegistryImageVersion() {
-        return Input.getInput('containerRegistryImageVersion') ?? '3';
+        return Input.getInput('containerRegistryImageVersion') ?? '3.2.2';
     }
     static get skipActivation() {
         return Input.getInput('skipActivation')?.toLowerCase() ?? 'false';

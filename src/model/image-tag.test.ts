@@ -76,6 +76,24 @@ describe('ImageTag', () => {
       expect(image.toString()).toStrictEqual(image.customImage);
     });
 
+    it('supports semantic image versions', () => {
+      const image = new ImageTag({
+        editorVersion: '2099.1.1111f1',
+        targetPlatform: testImageParameters.targetPlatform,
+        containerRegistryRepository: 'unityci/editor',
+        containerRegistryImageVersion: '3.2.2',
+      });
+
+      switch (process.platform) {
+        case 'win32':
+          expect(image.toString()).toStrictEqual(`${defaults.image}:windows-2099.1.1111f1-3.2.2`);
+          break;
+        case 'linux':
+          expect(image.toString()).toStrictEqual(`${defaults.image}:ubuntu-2099.1.1111f1-3.2.2`);
+          break;
+      }
+    });
+
     it('returns the specific build platform', () => {
       const image = new ImageTag({
         editorVersion: '2019.2.11f1',

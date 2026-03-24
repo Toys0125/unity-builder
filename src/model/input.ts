@@ -275,7 +275,7 @@ class Input {
   }
 
   static get containerRegistryImageVersion(): string {
-    return Input.getInput('containerRegistryImageVersion') ?? '3';
+    return Input.getInput('containerRegistryImageVersion') ?? '3.2.2';
   }
 
   static get skipActivation(): string {
