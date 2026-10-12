@@ -116,7 +116,7 @@ const ORCHESTRATE_STRING_FLAGS: Array<[input: string, flag: string]> = [
   //   by build-parameters-adapter.ts - only androidVersionCode is. Android
   //   signing/export beyond the version code is currently unsupported by
   //   `orchestrate`.
-  // dockerCpuLimit/dockerMemoryLimit/dockerIsolationMode/
+  // dockerCpuLimit/dockerMemoryLimit/dockerShmSize/dockerIsolationMode/
   //   containerRegistryRepository/containerRegistryImageVersion/
   //   dockerWorkspacePath: Docker container concepts with no bare-host
   //   equivalent (containerRegistry* aren't even assigned by the adapter).

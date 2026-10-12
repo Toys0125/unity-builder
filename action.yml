@@ -150,7 +150,7 @@ inputs:
   dockerShmSize:
     required: false
     default: '1025m'
-    description: 'Docker /dev/shm size. Unity 6.6+ requires at least 1025m. Set to 2g for extra headroom.'
+    description: 'Docker /dev/shm size on Linux (e.g. 2g). Use 0 or none to restore Docker defaults.'
   dockerIsolationMode:
     required: false
     default: 'default'

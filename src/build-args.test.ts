@@ -60,12 +60,13 @@ describe('buildCliArgs', () => {
     expect(args).toContain('--dockerCpuLimit=4');
   });
 
-  it('passes the Docker shared-memory override through to GameCI CLI', () => {
-    const args = buildCliArgs(
-      inputsOf({ targetPlatform: 'StandaloneLinux64', dockerShmSize: '2g' }),
-    );
-    expect(args).toContain('--dockerShmSize=2g');
-  });
+  it.each(['2g', '4096m', '0', 'none'])(
+    'passes Docker shared-memory value "%s" through to GameCI CLI',
+    (dockerShmSize) => {
+      const args = buildCliArgs(inputsOf({ targetPlatform: 'StandaloneLinux64', dockerShmSize }));
+      expect(args).toContain(`--dockerShmSize=${dockerShmSize}`);
+    },
+  );
 
   it('keeps a value starting with "-" as one unambiguous token', () => {
     // A value like this ("-profile Foo -someBoolean") would otherwise be
@@ -313,6 +314,18 @@ describe('buildCliArgs', () => {
       expect(args).toContain('--localCacheLfs');
     });
 
+    it('does not pass Docker shared-memory settings to native local-system builds', () => {
+      const args = buildCliArgs(
+        inputsOf({
+          targetPlatform: 'StandaloneLinux64',
+          providerStrategy: 'local-system',
+          dockerShmSize: '2g',
+        }),
+      );
+
+      expect(args.some((arg) => arg.startsWith('--dockerShmSize='))).toBe(false);
+    });
+
     it('never emits build-only/Docker-only flags that have no orchestrate-side equivalent', () => {
       const inputs = {
         targetPlatform: 'StandaloneLinux64',
@@ -362,6 +375,7 @@ describe('buildCliArgs', () => {
         'androidSymbolType',
         'dockerCpuLimit',
         'dockerMemoryLimit',
+        'dockerShmSize',
         'dockerIsolationMode',
         'containerRegistryRepository',
         'containerRegistryImageVersion',

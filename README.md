@@ -43,8 +43,8 @@ Custom-built editor images are therefore unaffected.
 
 ## Docker shared memory
 
-The GameCI CLI defaults Docker shared memory to `1025m`. For projects
-that require more, set the `dockerShmSize` action input explicitly:
+The GameCI CLI defaults Docker shared memory to `1025m` for Linux builds.
+For projects that require more, set the `dockerShmSize` action input explicitly:
 
 ```yaml
 # After merging into BasisVR/unity-builder:
@@ -54,6 +54,10 @@ that require more, set the `dockerShmSize` action input explicitly:
     targetPlatform: StandaloneWindows64
     dockerShmSize: 2g
 ```
+
+`dockerShmSize` is passed to the GameCI CLI, which applies it as Docker's
+`--shm-size` flag. Use `0` or `none` to opt out and use Docker's own default.
+This setting does not apply to native `providerStrategy: local-system` builds.
 
 The action continues to run on Node 24 and delegates builds to the
 `game-ci/cli` binary.
